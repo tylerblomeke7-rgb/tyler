@@ -16,7 +16,7 @@ totalSum = 0
 playerMoney = random.randint(10, 100)
 chance = random.randint(1, 1000000)
 value = 32
-
+API_Key = "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"
 world = {
     1: {"up": 2, "down": 16, "right": 14},
     2: {"up": 3, "down": 1, "right": 15, "left": 5},
@@ -271,6 +271,8 @@ def checkoutCart(location):
                                 print("\n    ⚠️  Invalid item number!")
                         except ValueError:
                             print("\n    ⚠️  Please enter a valid number!")
+
+                        removeInput = input("\n  ➤ Enter item number to remove (or 'x' to continue): ").lower()
             else:
                 print("\n    ⚠️  Invalid input! Please press 'a' or 'x'.")
 
@@ -287,7 +289,71 @@ def robbing(location):
             print(f"    💸 You lost all your money and items. You had ${playerMoney} and {len(cart)} items in your cart.")
             playerMoney = 0
             cart = []
-            totalSum = 0    
+            totalSum = 0   
+
+import requests
+import json
+def GPT(personality, role, location):
+    persona = f"You are {personality}"
+    instruction = f"You are a {role}. Say a sentence as that role."
+    context = f"You are at location:{location} inside a grocery store. the customer you are talking to has {cart} items in their cart."
+    format = "Only the content the character is saying. No explanations"
+    audience = "The customer that the charcater is talking to."
+    tone = f"You have the tone of this personality {personality}"
+    data = f"movement across the grocery store = {world}. Aisle names = {locationNames}. products sorted by aisle and category = {store}."
+    response = requests.post(
+    url="https://openrouter.ai/api/v1/chat/completions",
+    headers={
+        "Authorization": f"Bearer {API_Key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "<YOUR_SITE_URL>", # Optional. Site URL for rankings on openrouter.ai.
+        "X-Title": "<YOUR_SITE_NAME>", # Optional. Site title for rankings on openrouter.ai.
+    },
+    data=json.dumps({
+        "model": "liquid/lfm-2.5-1.2b-instruct:free",
+        "messages": [
+        {
+            "role": "user",
+            "content": f"persona = {persona}. intruction = {instruction}. context = {context}. format = {format}. audience = {audience}. tone = {tone}. data = {data}"
+        }
+        ]
+    })
+    )
+
+    
+    print(f"{response.json()["choices"][0]["message"]["content"]}")
+
+def differentCharacters(location):
+    if location == 1:
+        GPT("extremely angry at his wife for making him shop by himself","customer",location)
+    elif location == 2:
+        GPT("Risk-taking behavior", "customer", location)
+    elif location == 3:
+        GPT("Relaxed, easy-going, patient", "customer", location)
+    elif location == 4:
+        GPT("Competitive, ambitious, impatient", "customer", location)
+    elif location == 5:
+        GPT("How they treat others", "customer", location)
+    elif location == 6:
+        GPT("Energetic, creative, people-oriented", "customer", location)
+    elif location == 7:
+        GPT("Social energy levels ", "employee", location)
+    elif location == 8:
+        GPT("Emotional intelligence", "customer", location)
+    elif location == 9:
+        GPT("Neuroticism  Sensitive vs Emotionally Stable", "customer", location)
+    elif location == 10:
+        GPT("Stability and security", "customer", location)
+    elif location == 11:
+        GPT("How they react to criticism", "employee", location)
+    elif location == 12:
+        GPT("Optimistic or pessimistic", "employee", location)
+    elif location == 13:
+        GPT("Power and influence", "employee", location)
+    elif location == 14:
+        GPT("taiking to manager", "manager", location)
+    elif location == 15:
+        GPT("talking to a cashier", "cashier", location)
 
 import random
 import sys
@@ -312,6 +378,9 @@ def movement():
     movementNames(location)
     checkoutCart(location)
     robbing(location)
+    differentCharacters(location)
+
+    
     
     print("\n  ➤ Press arrow key to move (UP/DOWN/LEFT/RIGHT):")
     
