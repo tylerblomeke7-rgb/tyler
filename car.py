@@ -1,11 +1,47 @@
-class car:
-    def __init__(self, make, model, year):
+class inventions:
+    def __init__(self, inventor):
+        self.inventor = inventor
+
+class light(inventions):
+    def __init__(self, inventor, typeoflight, color):
+        super().__init__(inventor = "Thomas Edison")
+        self.color = color
+        self.typeoflight = typeoflight
+
+class vehicle(inventions):
+    def __init__(self, inventor, topspeed, steering, lights, navigation, engine):
+        super().__init__(inventor)
+        self.topspeed = topspeed
+        self.steering = steering
+        self.lights = lights
+        self.navigation = navigation
+        self.engine = engine
+
+    def getengine(self):
+        print(f"get engine:{self.engine}")    
+    
+    def setengine(self, newengine):
+        self.engine = newengine
+        print(f"set engine:{self.engine}")
+
+    def startvehicle(self):
+        if self.navigation == "land":
+            print("Starting on land")
+        elif self.navigation == "sea":
+            print("Sailing on sea")
+        elif self.navigation == "air":
+            print("Flying in the air")
+
+
+class car(vehicle):
+    def __init__(self, make, model, year, inventor, topspeed=100, steering="car", lights="LED", navigation="land", engine="V8"):
+        super().__init__(inventor, topspeed, steering, lights, navigation, engine)
         self.make = make
         self.model = model
         self.year = year
         self.tires = "winter"
         self.color = "red"
-        self.engine ="V8"
+        
         self.is_running = False
 
     def start(self):
@@ -35,20 +71,14 @@ class car:
     def setcolor(self, newcolor):
         self.color = newcolor
         print(f"set color:{self.color}")
-        
-
+   
+    
     
 
 
-tylers_car = car("Chevrolet", "Tahoe", 2024)
+tylers_car = car("Chevrolet", "Tahoe", 2024, "Henry Ford")
+shazaibs_vehicle = vehicle("Henry Ford", 150, "car", "bulbs", "land", "I4")
+saanvi_inventions = inventions("Saanvi")
+mylight = light("thomas", "LED", "white")
 
-
-tylers_car.start()
-tylers_car.drive(10)
-tylers_car.stop()
-
-tylers_car.getTires()
-tylers_car.setTires("spring")
-tylers_car.getTires()
-
-    
+mylight.inventor
