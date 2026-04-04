@@ -71,14 +71,20 @@ class car(vehicle):
     def setcolor(self, newcolor):
         self.color = newcolor
         print(f"set color:{self.color}")
-   
+        
+
     
+
+
+tylers_car = car("Chevrolet", "Tahoe", 2024)
+
+
+tylers_car.start()
+tylers_car.drive(10)
+tylers_car.stop()
+
+tylers_car.getTires()
+tylers_car.setTires("spring")
+tylers_car.getTires()
+
     
-
-
-tylers_car = car("Chevrolet", "Tahoe", 2024, "Henry Ford")
-shazaibs_vehicle = vehicle("Henry Ford", 150, "car", "bulbs", "land", "I4")
-saanvi_inventions = inventions("Saanvi")
-mylight = light("thomas", "LED", "white")
-
-mylight.inventor
